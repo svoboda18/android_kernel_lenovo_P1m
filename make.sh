@@ -1,5 +1,5 @@
-export KBUILD_BUILD_USER="Mohancm"
-export KBUILD_BUILD_HOST="TEAM_ZERO"
+export KBUILD_BUILD_USER="svoboda18"
+export KBUILD_BUILD_HOST="BuildServer"
 export CROSS_COMPILE="/home/easycompile2019/aarch64-linux-android-4.9/bin/aarch64-linux-android-"
 
 make clean && make mrproper
