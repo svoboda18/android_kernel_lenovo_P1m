@@ -3398,7 +3398,7 @@ static const struct file_operations teei_client_fops = {
 };
 #define TEEI_CONFIG_FULL_PATH_DEV_NAME "/dev/teei_config"
 #define TEEI_CONFIG_DEV "teei_config"
-#define TEEI_CONFIG_IOC_MAGIC 0x775B777E /* "TEEI Client" */
+#define TEEI_CONFIG_IOC_MAGIC 'T' /* "TEEI Client" */
 
 
 /**
