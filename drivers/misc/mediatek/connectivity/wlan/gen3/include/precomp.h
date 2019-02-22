@@ -196,9 +196,6 @@
 #include "tdls.h"
 #endif
 
-#if defined(MTK_AOSP_TETHERING)
-extern volatile int wlan_if_changed;
-#endif
 extern BOOLEAN fgIsResetting;
 
 /*******************************************************************************

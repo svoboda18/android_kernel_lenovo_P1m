@@ -957,34 +957,6 @@ static const UINT_32 mtk_cipher_suites[] = {
 	WLAN_CIPHER_SUITE_AES_CMAC
 };
 
-/*********************************************************/
-
-#define NIC_INF_NAME    "wlan%d"	/* interface name */
-#if defined(MTK_AOSP_TETHERING)
-#define NIC_INF_NAME_IN_AP_MODE  "legacy%d"
-#endif
-
-#if CFG_SUPPORT_SNIFFER
-#define NIC_MONITOR_INF_NAME	"radiotap%d"
-#endif
-
-UINT_8 aucDebugModule[DBG_MODULE_NUM];
-UINT_32 u4DebugModule = 0;
-
-/* 4 2007/06/26, mikewu, now we don't use this, we just fix the number of wlan device to 1 */
-static WLANDEV_INFO_T arWlanDevInfo[CFG_MAX_WLAN_DEVICES] = { {0} };
-
-static UINT_32 u4WlanDevNum;	/* How many NICs coexist now */
-
-/**20150205 added work queue for sched_scan to avoid cfg80211 stop schedule scan dead loack**/
-struct delayed_work sched_workq;
-
-/*******************************************************************************
-*                           P R I V A T E   D A T A
-********************************************************************************
-*/
-
-
 static struct cfg80211_ops mtk_wlan_ops = {
 	.change_virtual_intf = mtk_cfg80211_change_iface,
 	.add_key = mtk_cfg80211_add_key,
@@ -2249,20 +2221,9 @@ static struct wireless_dev *wlanNetCreate(PVOID pvData)
 	kalMemZero(prGlueInfo, sizeof(GLUE_INFO_T));
 	/* 4 <3> Initial Glue structure */
 	/* 4 <3.1> create net device */
-	#if defined(MTK_AOSP_TETHERING)
-	if (wlan_if_changed)
-	prGlueInfo->prDevHandler =
-	     alloc_netdev_mq(sizeof(NETDEV_PRIVATE_GLUE_INFO), NIC_INF_NAME_IN_AP_MODE,
-							   NET_NAME_PREDICTABLE, ether_setup, CFG_MAX_TXQ_NUM);
-	else
-	prGlueInfo->prDevHandler =
-	     alloc_netdev_mq(sizeof(NETDEV_PRIVATE_GLUE_INFO), NIC_INF_NAME,
-							   NET_NAME_PREDICTABLE, ether_setup, CFG_MAX_TXQ_NUM);
-	#else
 	prGlueInfo->prDevHandler =
 	    alloc_netdev_mq(sizeof(NETDEV_PRIVATE_GLUE_INFO), NIC_INF_NAME,
 				NET_NAME_PREDICTABLE, ether_setup, CFG_MAX_TXQ_NUM);
-	#endif
 
 	DBGLOG(INIT, INFO, "net_device prDev(0x%p) allocated\n", prGlueInfo->prDevHandler);
 	if (!prGlueInfo->prDevHandler) {
